@@ -17,7 +17,7 @@ public class Main {
 
         final GLCanvas glCanvas = new GLCanvas(capabilities);
 
-        glCanvas.addGLEventListener(new MovingLine());
+        glCanvas.addGLEventListener(new Line());
         glCanvas.setSize(400, 400);
 
         Animator animator = new Animator(glCanvas);
