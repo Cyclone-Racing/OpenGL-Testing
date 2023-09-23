@@ -48,7 +48,7 @@ public class MovingLine implements GLEventListener {
 
         final GLCanvas glCanvas = new GLCanvas(capabilities);
 
-        glCanvas.addGLEventListener(new Line());
+        glCanvas.addGLEventListener(new MovingLine());
         glCanvas.setSize(400, 400);
 
         Animator animator = new Animator(glCanvas);
@@ -60,5 +60,7 @@ public class MovingLine implements GLEventListener {
         frame.getContentPane().add(glCanvas);
         frame.setSize(frame.getContentPane().getPreferredSize());
         frame.setVisible(true);
+
+        DataInput.connect(DataInput.TEST);
     }
 }
