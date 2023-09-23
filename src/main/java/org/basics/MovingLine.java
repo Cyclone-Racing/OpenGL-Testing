@@ -20,7 +20,8 @@ public class MovingLine implements GLEventListener {
         gl.glClear(GL2.GL_COLOR_BUFFER_BIT);
 
         gl.glBegin (GL2.GL_LINES);
-        gl.glVertex2d(-0.80,0);
+        //gl.glVertex2d(-0.80,0);
+        gl.glVertex2d(-0.8,0.5);
         if (DataInput.isConnected())
             gl.glVertex2d(0.80, DatasetController.getDataset(0).getLastSample());
         else
