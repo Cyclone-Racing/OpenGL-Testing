@@ -21,6 +21,7 @@ public class MovingLine implements GLEventListener {
 
         gl.glBegin (GL2.GL_LINES);
         gl.glVertex2d(-0.80,0);
+
         if (DataInput.isConnected())
             gl.glVertex2d(0.80, DatasetController.getDataset(0).getLastSample());
         else

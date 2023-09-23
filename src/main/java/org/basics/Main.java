@@ -17,9 +17,9 @@ public class Main {
 
         final GLCanvas glCanvas = new GLCanvas(capabilities);
 
-        glCanvas.addGLEventListener(new Line());
+        glCanvas.addGLEventListener(new TimeDomain());
         glCanvas.setSize(400, 400);
-
+//
         Animator animator = new Animator(glCanvas);
         animator.setUpdateFPSFrames(1, null);
         animator.start();
