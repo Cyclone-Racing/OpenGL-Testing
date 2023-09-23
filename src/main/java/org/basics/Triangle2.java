@@ -16,11 +16,12 @@ public class Triangle2 implements GLEventListener {
     public void display(GLAutoDrawable drawable) {
         GL2 gl = drawable.getGL().getGL2();
 
-        gl.glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+        Color color1 = new Color(255, 255, 255, 255);
+        gl.glClearColor(color1.getRed() / 255.0f, color1.getBlue() / 255.0f, color1.getGreen() / 255.0f, color1.getAlpha() / 255.0f);
         gl.glClear(GL2.GL_COLOR_BUFFER_BIT);
 
-        Color c = new Color(93, 0, 0);
-        gl.glColor3d(c.getRed() / 255.0, c.getBlue() / 255.0, c.getGreen() / 255.0);
+        Color color2 = new Color(93, 0, 0);
+        gl.glColor3d(color2.getRed() / 255.0, color2.getBlue() / 255.0, color2.getGreen() / 255.0);
 
         gl.glBegin(GL2.GL_TRIANGLES);
         gl.glVertex2d(-0.5, -0.5);
