@@ -67,7 +67,8 @@ public class DataInput {
                         5 * Math.sin(counter * 0.2)
                 };
 
-                counter += 0.0001;
+                counter += 0.001;
+                //counter +=0.1;
 
                 for (int i = 0; i < DatasetController.getDatasets().size(); i++)
                     DatasetController.getDataset(i).add((float) samples[i]);
