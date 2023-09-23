@@ -8,10 +8,10 @@ public class TimeDomain implements GLEventListener {
 
     @Override
     public void display(GLAutoDrawable drawable) {
-        Dataset yValues = DatasetController.getDataset(0);
+        Dataset yValues = DatasetController.getDataset(1);
 
         final int minSampleCount = yValues.getLength();
-        final int maxSampleCount = 50000;
+        final int maxSampleCount = 25000;
         final double xDiff = 2.0 / maxSampleCount;
 
         final GL2 gl = drawable.getGL().getGL2();
