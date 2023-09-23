@@ -5,14 +5,15 @@ import com.jogamp.opengl.GLAutoDrawable;
 import com.jogamp.opengl.GLEventListener;
 
 public class TimeDomain implements GLEventListener {
-
+    private double maxYValue = Double.MIN_VALUE;
+    private double minYValue = Double.MAX_VALUE;
     @Override
     public void display(GLAutoDrawable drawable) {
         Dataset yValues = DatasetController.getDataset(1);
 
         final int minSampleCount = yValues.getLength();
-        final int maxSampleCount = 25000;
-        final double xDiff = 2.0 / maxSampleCount;
+        final int maxSampleCount = 10000;
+        final double diff = 2.0 / maxSampleCount;
 
         final GL2 gl = drawable.getGL().getGL2();
 
@@ -23,10 +24,16 @@ public class TimeDomain implements GLEventListener {
             return;
 
         for (int i = 1; i < drawSampleCount - 1; i++) {
-            double sample1x = -1.0 + ((i - 1) * xDiff);
-            double sample2x = -1.0 + ((i) * xDiff);
+            maxYValue = Math.max(maxYValue, yValues.getSample((yValues.getLength()) - (drawSampleCount - (i - 1))));
+            minYValue = Math.min(minYValue, yValues.getSample((yValues.getLength()) - (drawSampleCount - (i - 1))));
+            final double range = maxYValue - minYValue;
+
+            double sample1x = -1.0 + ((i - 1) * diff);
+            double sample2x = -1.0 + ((i) * diff);
             double sample1y = yValues.getSample((yValues.getLength()) - (drawSampleCount - (i - 1)));
+            sample1y = (((sample1y - minYValue) / range) * 2) + -1;
             double sample2y = yValues.getSample((yValues.getLength()) - (drawSampleCount - (i)));
+            sample2y = (((sample2y - minYValue)  / range) * 2) + -1;
 
 //            System.out.println(sample1x + ", " + sample1y);
 
