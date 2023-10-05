@@ -53,7 +53,6 @@ public class Dial extends SecondaryGraph {
 
             double originX = convertPointOverWidth((graphWidth / 2));
             double originY = convertPointOverHeight((graphHeight / 2) - (radius / 2));
-            System.out.println(convertPointOverWidth(radius) + ", " + convertPointOverHeight(radius));
 
             gl.glVertex2d(originX, originY);
 
