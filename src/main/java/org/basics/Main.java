@@ -17,7 +17,8 @@ public class Main {
 
         final GLCanvas glCanvas = new GLCanvas(capabilities);
 
-        glCanvas.addGLEventListener(new TimeDomain());
+        int dataSetList[] = {0,1,2};
+        glCanvas.addGLEventListener(new TimeDomain(dataSetList));
         glCanvas.setSize(400, 400);
 
         Animator animator = new Animator(glCanvas);
