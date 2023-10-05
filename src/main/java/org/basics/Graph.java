@@ -74,4 +74,20 @@ public class Graph extends MouseAdapter implements GLEventListener {
     public void reshape(GLAutoDrawable glAutoDrawable, int i, int i1, int i2, int i3) {
 
     }
+
+    protected double convertPointOverHeight(double value) {
+        return ((value / graphHeight) * (2)) + -1;
+    }
+
+    protected double convertPointOverWidth(double value) {
+        return ((value / graphWidth) * (2)) + -1;
+    }
+
+    protected double convertValueOverHeight(double value) {
+        return ((value / graphHeight) * (2));
+    }
+
+    protected double convertValueOverWidth(double value) {
+        return ((value / graphWidth) * (2));
+    }
 }
