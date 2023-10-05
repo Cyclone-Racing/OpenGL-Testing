@@ -16,7 +16,7 @@ public class Triangle2 implements GLEventListener {
     public void display(GLAutoDrawable drawable) {
         GL2 gl = drawable.getGL().getGL2();
 
-        Color color1 = new Color(255, 255, 255, 255);
+        Color color1 = new Color(86, 86, 86, 255);
         gl.glClearColor(color1.getRed() / 255.0f, color1.getBlue() / 255.0f, color1.getGreen() / 255.0f, color1.getAlpha() / 255.0f);
         gl.glClear(GL2.GL_COLOR_BUFFER_BIT);
 
