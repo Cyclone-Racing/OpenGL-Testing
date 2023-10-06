@@ -1,5 +1,7 @@
 package org.basics;
 
+import org.basics.Dataset;
+
 public abstract class SecondaryGraph extends Graph{
     protected Dataset dataset;
 
