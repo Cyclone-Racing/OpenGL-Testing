@@ -40,6 +40,12 @@
             <version>2.5.0</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.webjars.npm</groupId>
+            <artifactId>bufferutil</artifactId>
+            <version>4.0.7</version>
+        </dependency>
+
 
     </dependencies>
     <build>

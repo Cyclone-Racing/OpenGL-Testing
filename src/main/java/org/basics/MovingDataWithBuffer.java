@@ -1,41 +1,54 @@
 package org.basics;
 
 import com.jogamp.common.nio.Buffers;
-import com.jogamp.opengl.GL2;
-import com.jogamp.opengl.GLAutoDrawable;
-import com.jogamp.opengl.GLCapabilities;
-import com.jogamp.opengl.GLEventListener;
-import com.jogamp.opengl.GLProfile;
+import com.jogamp.opengl.*;
 import com.jogamp.opengl.awt.GLCanvas;
 import com.jogamp.opengl.util.Animator;
 
-import javax.swing.JFrame;
+import javax.swing.*;
 import java.nio.DoubleBuffer;
 import java.nio.ShortBuffer;
 
-public class Triangle implements GLEventListener {
+public class MovingDataWithBuffer implements GLEventListener {
     private DoubleBuffer vertices;
     private ShortBuffer indices;
     private int VBOVertices;
     private int VBOIndices;
+
     @Override
-    public void init(GLAutoDrawable drawable)
-    {
-        final GL2 gl = drawable.getGL().getGL2();
+    public void init(GLAutoDrawable glAutoDrawable) {
 
-        double[] vertexArray = {
-                -0.5,   -0.5,
-                0.5,    -0.5,
-                0,      0.5,
-        };
+    }
 
-        vertices = Buffers.newDirectDoubleBuffer(vertexArray.length);
-        vertices.put(vertexArray);
+    @Override
+    public void display(GLAutoDrawable glAutoDrawable) {
+        final GL2 gl = glAutoDrawable.getGL().getGL2();
+
+        gl.glClear(GL2.GL_COLOR_BUFFER_BIT);
+
+        int length = 50000;
+        double range = 2.0;
+        double min = -1;
+        double max = 1;
+
+//        double[] vertexArray = new double[length];
+        vertices = Buffers.newDirectDoubleBuffer(length * 2);
+        for (int i = 0; i < length; i++) {
+            double xCord = (((double) i / length) * range) + min;
+            double yCord = Math.random() * range + min;
+            vertices.put(xCord);
+            vertices.put(yCord);
+        }
+//        vertices.put(vertexArray);
         vertices.flip();
 
-        short[] indexArray = {0, 1, 2, 0};
-        indices = Buffers.newDirectShortBuffer(indexArray.length);
-        indices.put(indexArray);
+        short[] indexArray = new short[length];
+        indices = Buffers.newDirectShortBuffer(length);
+        for (int i = 0; i < length; i ++) {
+            indices.put((short) i);
+//            indexArray[i] = (short) i;
+        }
+//        indices.put(indexArray);
         indices.flip();
 
         int[] temp = new int[2];
@@ -52,11 +65,6 @@ public class Triangle implements GLEventListener {
         gl.glBufferData(GL2.GL_ELEMENT_ARRAY_BUFFER, (long) indices.capacity() * Buffers.SIZEOF_SHORT,
                 indices, GL2.GL_STATIC_DRAW);
         gl.glBindBuffer(GL2.GL_ELEMENT_ARRAY_BUFFER, 0);
-    }
-
-    @Override
-    public void display(GLAutoDrawable drawable) {
-        final GL2 gl = drawable.getGL().getGL2();
 
         gl.glEnableClientState(GL2.GL_VERTEX_ARRAY);
 
@@ -65,14 +73,14 @@ public class Triangle implements GLEventListener {
         gl.glBindBuffer(GL2.GL_ELEMENT_ARRAY_BUFFER, VBOIndices);
         gl.glDrawElements(GL2.GL_LINE_STRIP, indices.capacity(), GL2.GL_UNSIGNED_SHORT, 0);
     }
+
     @Override
-    public void reshape(GLAutoDrawable arg0, int arg1, int arg2, int arg3, int arg4)
-    {
+    public void dispose(GLAutoDrawable glAutoDrawable) {
 
     }
+
     @Override
-    public void dispose(GLAutoDrawable arg0)
-    {
+    public void reshape(GLAutoDrawable glAutoDrawable, int i, int i1, int i2, int i3) {
 
     }
 
@@ -82,14 +90,14 @@ public class Triangle implements GLEventListener {
 
         final GLCanvas glCanvas = new GLCanvas(capabilities);
 
-        glCanvas.addGLEventListener(new Triangle());
+        glCanvas.addGLEventListener(new MovingDataWithBuffer());
         glCanvas.setSize(400, 400);
 
         Animator animator = new Animator(glCanvas);
         animator.setUpdateFPSFrames(1, null);
         animator.start();
 
-        final JFrame frame = new JFrame ("Triangle");
+        final JFrame frame = new JFrame ("Moving Buffer Data");
 
         frame.getContentPane().add(glCanvas);
         frame.setSize(frame.getContentPane().getPreferredSize());
