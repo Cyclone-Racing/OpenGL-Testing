@@ -14,41 +14,40 @@ public class MovingDataWithBuffer implements GLEventListener {
     private ShortBuffer indices;
     private int VBOVertices;
     private int VBOIndices;
+    private int length = 10000;
 
     @Override
     public void init(GLAutoDrawable glAutoDrawable) {
-
+        vertices = Buffers.newDirectDoubleBuffer(length * 2);
+        indices = Buffers.newDirectShortBuffer(length);
     }
 
     @Override
     public void display(GLAutoDrawable glAutoDrawable) {
+        vertices.rewind();
+        indices.rewind();
+
         final GL2 gl = glAutoDrawable.getGL().getGL2();
 
         gl.glClear(GL2.GL_COLOR_BUFFER_BIT);
+        gl.glClear(GL2.GL_BUFFER);
 
-        int length = 50000;
         double range = 2.0;
         double min = -1;
         double max = 1;
 
-//        double[] vertexArray = new double[length];
-        vertices = Buffers.newDirectDoubleBuffer(length * 2);
         for (int i = 0; i < length; i++) {
             double xCord = (((double) i / length) * range) + min;
             double yCord = Math.random() * range + min;
             vertices.put(xCord);
             vertices.put(yCord);
         }
-//        vertices.put(vertexArray);
         vertices.flip();
 
         short[] indexArray = new short[length];
-        indices = Buffers.newDirectShortBuffer(length);
         for (int i = 0; i < length; i ++) {
             indices.put((short) i);
-//            indexArray[i] = (short) i;
         }
-//        indices.put(indexArray);
         indices.flip();
 
         int[] temp = new int[2];
@@ -72,6 +71,9 @@ public class MovingDataWithBuffer implements GLEventListener {
         gl.glVertexPointer(2, GL2.GL_DOUBLE, 0, 0);
         gl.glBindBuffer(GL2.GL_ELEMENT_ARRAY_BUFFER, VBOIndices);
         gl.glDrawElements(GL2.GL_LINE_STRIP, indices.capacity(), GL2.GL_UNSIGNED_SHORT, 0);
+
+        vertices.rewind();
+        indices.rewind();
     }
 
     @Override
