@@ -7,25 +7,32 @@ import com.jogamp.opengl.util.Animator;
 
 import javax.swing.*;
 import java.nio.DoubleBuffer;
-import java.nio.ShortBuffer;
+import java.util.Date;
 
 public class MovingDataWithBuffer implements GLEventListener {
     private DoubleBuffer vertices;
-    private ShortBuffer indices;
-    private int VBOVertices;
-    private int VBOIndices;
-    private int length = 10000;
+    private int vboId;
+    private int length = 1000;
+
+    // For testing purpose
+    private Date startTime;
 
     @Override
     public void init(GLAutoDrawable glAutoDrawable) {
         vertices = Buffers.newDirectDoubleBuffer(length * 2);
-        indices = Buffers.newDirectShortBuffer(length);
+
+        GL2 gl = glAutoDrawable.getGL().getGL2();
+
+
+        int[] vboIds = new int[1];
+        // Generate a buffer object name/ID
+        gl.glGenBuffers(1, vboIds, 0);
+        vboId = vboIds[0];
     }
 
     @Override
     public void display(GLAutoDrawable glAutoDrawable) {
         vertices.rewind();
-        indices.rewind();
 
         final GL2 gl = glAutoDrawable.getGL().getGL2();
 
@@ -36,6 +43,7 @@ public class MovingDataWithBuffer implements GLEventListener {
         double min = -1;
         double max = 1;
 
+        // Setup vertices buffer
         for (int i = 0; i < length; i++) {
             double xCord = (((double) i / length) * range) + min;
             double yCord = Math.random() * range + min;
@@ -44,36 +52,32 @@ public class MovingDataWithBuffer implements GLEventListener {
         }
         vertices.flip();
 
-        short[] indexArray = new short[length];
-        for (int i = 0; i < length; i ++) {
-            indices.put((short) i);
+        try {
+
+            int[] vboIds = new int[1];
+            gl.glGenBuffers(1, vboIds, 0);
+            vboId = vboIds[0];
+
+            gl.glBindBuffer(GL2.GL_ARRAY_BUFFER, vboId);
+            gl.glBufferData(GL2.GL_ARRAY_BUFFER, (long) vertices.limit() * Buffers.SIZEOF_DOUBLE, vertices, GL2.GL_STATIC_DRAW);
+            gl.glEnableClientState(GL2.GL_VERTEX_ARRAY);
+            gl.glVertexPointer(2, GL2.GL_DOUBLE, 0, 0);
+            gl.glDrawArrays(GL2.GL_LINE_STRIP, 0, length /* DrawCount Goes Here! */);
+
+            gl.glDisableClientState(GL2.GL_VERTEX_ARRAY);
+            gl.glBindBuffer(GL2.GL_ARRAY_BUFFER, 0);
+
+            vertices.rewind();
+
+        } catch (Exception e) {
+            Date endTime = new Date();
+            System.out.println(new Date(endTime.getTime() - startTime.getTime()));
+            System.out.println();
+            System.out.println(gl.glGetError());
+            throw e;
         }
-        indices.flip();
-
-        int[] temp = new int[2];
-        gl.glGenBuffers(2, temp, 0);
-
-        VBOVertices = temp[0];
-        gl.glBindBuffer(GL2.GL_ARRAY_BUFFER, VBOVertices);
-        gl.glBufferData(GL2.GL_ARRAY_BUFFER, (long) vertices.capacity() * Buffers.SIZEOF_DOUBLE,
-                vertices, GL2.GL_STATIC_DRAW);
-        gl.glBindBuffer(GL2.GL_ARRAY_BUFFER, 0);
-
-        VBOIndices = temp[1];
-        gl.glBindBuffer(GL2.GL_ELEMENT_ARRAY_BUFFER, VBOIndices);
-        gl.glBufferData(GL2.GL_ELEMENT_ARRAY_BUFFER, (long) indices.capacity() * Buffers.SIZEOF_SHORT,
-                indices, GL2.GL_STATIC_DRAW);
-        gl.glBindBuffer(GL2.GL_ELEMENT_ARRAY_BUFFER, 0);
-
-        gl.glEnableClientState(GL2.GL_VERTEX_ARRAY);
-
-        gl.glBindBuffer(GL2.GL_ARRAY_BUFFER, VBOVertices);
-        gl.glVertexPointer(2, GL2.GL_DOUBLE, 0, 0);
-        gl.glBindBuffer(GL2.GL_ELEMENT_ARRAY_BUFFER, VBOIndices);
-        gl.glDrawElements(GL2.GL_LINE_STRIP, indices.capacity(), GL2.GL_UNSIGNED_SHORT, 0);
 
         vertices.rewind();
-        indices.rewind();
     }
 
     @Override
