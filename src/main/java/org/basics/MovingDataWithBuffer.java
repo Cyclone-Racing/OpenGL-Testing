@@ -6,11 +6,11 @@ import com.jogamp.opengl.awt.GLCanvas;
 import com.jogamp.opengl.util.Animator;
 
 import javax.swing.*;
-import java.nio.DoubleBuffer;
+import java.nio.FloatBuffer;
 import java.util.Date;
 
 public class MovingDataWithBuffer implements GLEventListener {
-    private DoubleBuffer vertices;
+    private FloatBuffer vertices;
     private int vboId;
     private int length = 1000;
 
@@ -19,7 +19,7 @@ public class MovingDataWithBuffer implements GLEventListener {
 
     @Override
     public void init(GLAutoDrawable glAutoDrawable) {
-        vertices = Buffers.newDirectDoubleBuffer(length * 2);
+        vertices = Buffers.newDirectFloatBuffer(length * 2);
 
         GL2 gl = glAutoDrawable.getGL().getGL2();
 
@@ -45,8 +45,8 @@ public class MovingDataWithBuffer implements GLEventListener {
 
         // Setup vertices buffer
         for (int i = 0; i < length; i++) {
-            double xCord = (((double) i / length) * range) + min;
-            double yCord = Math.random() * range + min;
+            float xCord = (float) ((((float) i / length) * range) + min);
+            float yCord = (float) (Math.random() * range + min);
             vertices.put(xCord);
             vertices.put(yCord);
         }
@@ -59,9 +59,9 @@ public class MovingDataWithBuffer implements GLEventListener {
             vboId = vboIds[0];
 
             gl.glBindBuffer(GL2.GL_ARRAY_BUFFER, vboId);
-            gl.glBufferData(GL2.GL_ARRAY_BUFFER, (long) vertices.limit() * Buffers.SIZEOF_DOUBLE, vertices, GL2.GL_STATIC_DRAW);
+            gl.glBufferData(GL2.GL_ARRAY_BUFFER, (long) vertices.limit() * Buffers.SIZEOF_FLOAT, vertices, GL2.GL_STATIC_DRAW);
             gl.glEnableClientState(GL2.GL_VERTEX_ARRAY);
-            gl.glVertexPointer(2, GL2.GL_DOUBLE, 0, 0);
+            gl.glVertexPointer(2, GL2.GL_FLOAT, 0, 0);
             gl.glDrawArrays(GL2.GL_LINE_STRIP, 0, length /* DrawCount Goes Here! */);
 
             gl.glDisableClientState(GL2.GL_VERTEX_ARRAY);
