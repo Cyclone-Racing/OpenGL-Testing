@@ -5,6 +5,7 @@ import com.jogamp.opengl.GLCapabilities;
 import com.jogamp.opengl.GLEventListener;
 import com.jogamp.opengl.GLProfile;
 import com.jogamp.opengl.awt.GLCanvas;
+import com.jogamp.opengl.awt.GLJPanel;
 
 import java.awt.*;
 import java.awt.event.MouseAdapter;
@@ -14,6 +15,7 @@ import java.util.List;
 public class Graph extends MouseAdapter implements GLEventListener {
     protected int sampleCount = 10000;
     protected List<Dataset> datasets;
+    protected GLJPanel container;
 
     protected double graphX;
     protected double graphY;
@@ -29,6 +31,13 @@ public class Graph extends MouseAdapter implements GLEventListener {
         this.graphY = graphY;
         this.graphWidth = graphWidth;
         this.graphHeight = graphHeight;
+    }
+
+    public Graph(GLJPanel container) {
+        this.container = container;
+    }
+
+    public Graph() {
     }
 
     @Override
@@ -91,5 +100,9 @@ public class Graph extends MouseAdapter implements GLEventListener {
 
     protected double convertValueOverWidth(double value) {
         return ((value / graphWidth) * (2));
+    }
+
+    protected void setContainer(GLJPanel container) {
+        this.container = container;
     }
 }
