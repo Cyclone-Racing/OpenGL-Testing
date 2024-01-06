@@ -24,12 +24,6 @@ public class DialWithBuffer extends SecondaryGraph implements GLEventListener {
         this.minValue = 0;
     }
 
-    public DialWithBuffer(GLJPanel container) {
-        super(container);
-        this.maxValue = 1;
-        this.minValue = 0;
-    }
-
     public void setMaxMin(float maxValue, float minValue) {
         this.maxValue = maxValue;
         this.minValue = minValue;
@@ -46,13 +40,13 @@ public class DialWithBuffer extends SecondaryGraph implements GLEventListener {
         vboId = vboIds[0];
 
         // Adjust to remove stretching
-        float width = glAutoDrawable.getSurfaceWidth();
-        float height = glAutoDrawable.getSurfaceHeight();
+        graphWidth = glAutoDrawable.getSurfaceWidth();
+        graphHeight = glAutoDrawable.getSurfaceHeight();
 
         final float desiredRadius = 0.7f;
         final float[] radiusOuter = {
-                width < height ? desiredRadius : (float) height / width * desiredRadius,
-                height < width ? desiredRadius : (float) width / height * desiredRadius};
+                graphWidth < graphHeight ? desiredRadius : (float) graphHeight / graphWidth * desiredRadius,
+                graphHeight < graphWidth ? desiredRadius : (float) graphWidth / graphHeight * desiredRadius};
         final float[] radiusInner = {radiusOuter[0] - (0.25f * radiusOuter[0]), radiusOuter[1] - (0.25f * radiusOuter[1])};
 
         float originX = 0;
@@ -76,7 +70,8 @@ public class DialWithBuffer extends SecondaryGraph implements GLEventListener {
 
     @Override
     public void display(GLAutoDrawable glAutoDrawable) {
-        setVertices(glAutoDrawable);
+        if (graphWidth != glAutoDrawable.getSurfaceWidth() || graphHeight != glAutoDrawable.getSurfaceHeight())
+            setVertices(glAutoDrawable);
 
         try {
 
