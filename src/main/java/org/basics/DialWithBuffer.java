@@ -7,6 +7,7 @@ import com.jogamp.opengl.awt.GLJPanel;
 import com.jogamp.opengl.util.Animator;
 
 import javax.swing.*;
+import java.awt.*;
 import java.nio.FloatBuffer;
 import java.util.ConcurrentModificationException;
 
@@ -50,8 +51,8 @@ public class DialWithBuffer extends SecondaryGraph implements GLEventListener {
 
         final float desiredRadius = 0.7f;
         final float[] radiusOuter = {
-                container.getWidth() < container.getHeight() ? desiredRadius : (float) container.getHeight() / container.getWidth() * desiredRadius,
-                container.getHeight() < container.getWidth() ? desiredRadius : (float) container.getWidth() / container.getHeight() * desiredRadius};
+                width < height ? desiredRadius : (float) height / width * desiredRadius,
+                height < width ? desiredRadius : (float) width / height * desiredRadius};
         final float[] radiusInner = {radiusOuter[0] - (0.25f * radiusOuter[0]), radiusOuter[1] - (0.25f * radiusOuter[1])};
 
         float originX = 0;
@@ -109,18 +110,18 @@ public class DialWithBuffer extends SecondaryGraph implements GLEventListener {
         final GLProfile profile = GLProfile.get(GLProfile.GL2);
         GLCapabilities capabilities = new GLCapabilities(profile);
 
-        final GLJPanel glJPanel = new GLJPanel(capabilities);
+        final GLCanvas glCanvas = new GLCanvas(capabilities);
 
-        glJPanel.addGLEventListener(new DialWithBuffer(glJPanel));
-        glJPanel.setSize(400, 400);
+        glCanvas.addGLEventListener(new DialWithBuffer());
+        glCanvas.setSize(400, 400);
 
-        Animator animator = new Animator(glJPanel);
+        Animator animator = new Animator(glCanvas);
         animator.setUpdateFPSFrames(1, null);
         animator.start();
 
         final JFrame frame = new JFrame ("Dial With Buffer Data");
 
-        frame.getContentPane().add(glJPanel);
+        frame.getContentPane().add(glCanvas);
         frame.setSize(frame.getContentPane().getPreferredSize());
         frame.setVisible(true);
 

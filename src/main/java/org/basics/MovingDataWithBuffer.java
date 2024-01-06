@@ -46,7 +46,7 @@ public class MovingDataWithBuffer implements GLEventListener {
         // Setup vertices buffer
         for (int i = 0; i < length; i++) {
             float xCord = (float) ((((float) i / length) * range) + min);
-            float yCord = (float) (Math.random() * range + min);
+            float yCord = (float) ((Math.random() * range) + min);
             vertices.put(xCord);
             vertices.put(yCord);
         }
