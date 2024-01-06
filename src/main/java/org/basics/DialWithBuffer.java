@@ -39,19 +39,18 @@ public class DialWithBuffer extends SecondaryGraph implements GLEventListener {
         gl.glGenBuffers(1, vboIds, 0);
         vboId = vboIds[0];
 
-        // Adjust to remove stretching
+        // Set current dimensions
         graphWidth = glAutoDrawable.getSurfaceWidth();
         graphHeight = glAutoDrawable.getSurfaceHeight();
 
         final float desiredRadius = 0.7f;
         final float[] radiusOuter = {
-                graphWidth < graphHeight ? desiredRadius : (float) graphHeight / graphWidth * desiredRadius,
-                graphHeight < graphWidth ? desiredRadius : (float) graphWidth / graphHeight * desiredRadius};
+                graphWidth < graphHeight ? desiredRadius : graphHeight / graphWidth * desiredRadius,
+                graphHeight < graphWidth ? desiredRadius : graphWidth / graphHeight * desiredRadius};
         final float[] radiusInner = {radiusOuter[0] - (0.25f * radiusOuter[0]), radiusOuter[1] - (0.25f * radiusOuter[1])};
 
         float originX = 0;
         float originY = radiusOuter[1] / -2f;
-
         float increment = ((float) Math.PI / ((float) sampleCount / 2));
         for (double angle = 0; angle < Math.PI; angle += increment) {
             vertices.put(-1 * (originX + ((float) Math.cos(angle) * radiusInner[0])));
