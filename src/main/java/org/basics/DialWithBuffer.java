@@ -17,11 +17,11 @@ public class DialWithBuffer extends SecondaryGraph implements GLEventListener {
     private float maxValue;
     private float minValue;
     private final int sampleCount = 1000;
-    private float value = 1f;
+    private float value = 0f;
 
     public DialWithBuffer() {
         this.maxValue = 1;
-        this.minValue = 0;
+        this.minValue = -1;
     }
 
     public void setMaxMin(float maxValue, float minValue) {
@@ -76,16 +76,19 @@ public class DialWithBuffer extends SecondaryGraph implements GLEventListener {
 
             final GL2 gl = glAutoDrawable.getGL().getGL2();
 
-//            Color backgroundColor = new Color(150, 150, 150, 255);
-//            gl.glClearColor(backgroundColor.getRed() / 255.0f, backgroundColor.getBlue() / 255.0f, backgroundColor.getGreen() / 255.0f, backgroundColor.getAlpha() / 255.0f);
+            Color backgroundColor = new Color(150, 150, 150, 255);
+            gl.glClearColor(backgroundColor.getRed() / 255.0f, backgroundColor.getBlue() / 255.0f, backgroundColor.getGreen() / 255.0f, backgroundColor.getAlpha() / 255.0f);
             gl.glClear(GL2.GL_COLOR_BUFFER_BIT);
+
+            Color c = Color.RED;
+            gl.glColor3d(c.getRed() / 255.0, c.getGreen() / 255.0, c.getBlue() / 255.0);
 
             // Code for smoothing random value changes
             // Following line should be removed, just for visually appealing things
             value += (Math.random() * (0.01f - -0.01f)) - 0.01f;
-//            value = (float) (Math.random() * (maxValue - minValue)) + minValue;
 
-            float percent = Math.max(Math.min(1f, value / (maxValue - minValue)), 0);
+            float percent = Math.max(Math.min(1f, (value - minValue) / (maxValue - minValue)), 0);
+            System.out.println(value + "\t|\t" + percent);
 
             gl.glBindBuffer(GL2.GL_ARRAY_BUFFER, vboId);
             gl.glBufferData(GL2.GL_ARRAY_BUFFER, (long) vertices.limit() * Buffers.SIZEOF_FLOAT, vertices, GL2.GL_STATIC_DRAW);
