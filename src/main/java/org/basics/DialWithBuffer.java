@@ -20,6 +20,7 @@ public class DialWithBuffer extends SecondaryGraph implements GLEventListener {
     private float value = 0f;
 
     public DialWithBuffer() {
+        super(0,0,0,0);
         this.maxValue = 1;
         this.minValue = -1;
     }

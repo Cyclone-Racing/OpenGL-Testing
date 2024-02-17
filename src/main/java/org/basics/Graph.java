@@ -1,11 +1,7 @@
 package org.basics;
 
 import com.jogamp.opengl.GLAutoDrawable;
-import com.jogamp.opengl.GLCapabilities;
 import com.jogamp.opengl.GLEventListener;
-import com.jogamp.opengl.GLProfile;
-import com.jogamp.opengl.awt.GLCanvas;
-import com.jogamp.opengl.awt.GLJPanel;
 
 import java.awt.*;
 import java.awt.event.MouseAdapter;
@@ -13,31 +9,30 @@ import java.awt.event.MouseEvent;
 import java.util.List;
 
 public class Graph extends MouseAdapter implements GLEventListener {
+    protected static Point frameLocation;
+
     protected int sampleCount = 10000;
     protected List<Dataset> datasets;
 
-    protected float graphX;
-    protected float graphY;
-    protected float graphWidth;
-    protected float graphHeight;
+    protected int graphX;
+    protected int graphY;
+    protected int graphWidth;
+    protected int graphHeight;
 
-    protected boolean mouseOnCanvas;
+    protected static boolean mouseOnCanvas;
 
-    private Container container;
+    protected boolean autoDetectMaxMin = false;
 
-    public Graph(float graphX, float graphY, float graphWidth, float graphHeight) {
+    public Graph(int graphX, int graphY, int graphWidth, int graphHeight) {
         this.graphX = graphX;
         this.graphY = graphY;
         this.graphWidth = graphWidth;
         this.graphHeight = graphHeight;
     }
 
-    public Graph() {
-    }
-
     @Override
     public void mouseEntered(MouseEvent e) {
-        System.out.println(e);
+//        System.out.println(e);
         mouseOnCanvas = true;
     }
 
@@ -57,7 +52,7 @@ public class Graph extends MouseAdapter implements GLEventListener {
         this.graphHeight = location.height;
     }
 
-    private void setSampleCount(int sampleCount) {
+    public void setSampleCount(int sampleCount) {
         this.sampleCount = sampleCount;
     }
 
@@ -95,5 +90,11 @@ public class Graph extends MouseAdapter implements GLEventListener {
 
     protected double convertValueOverWidth(double value) {
         return ((value / graphWidth) * (2));
+    }
+
+    protected static void setFrameLocation(Point location) { frameLocation = location; }
+
+    public void toggleAutoDetectMaxMin() {
+        autoDetectMaxMin = !autoDetectMaxMin;
     }
 }
