@@ -1,10 +1,7 @@
 package org.basics;
 
 import com.jogamp.opengl.GLAutoDrawable;
-import com.jogamp.opengl.GLCapabilities;
 import com.jogamp.opengl.GLEventListener;
-import com.jogamp.opengl.GLProfile;
-import com.jogamp.opengl.awt.GLCanvas;
 
 import java.awt.*;
 import java.awt.event.MouseAdapter;
@@ -12,17 +9,19 @@ import java.awt.event.MouseEvent;
 import java.util.List;
 
 public class Graph extends MouseAdapter implements GLEventListener {
+    protected static Point frameLocation;
+
     protected int sampleCount = 10000;
     protected List<Dataset> datasets;
 
-    protected double graphX;
-    protected double graphY;
-    protected double graphWidth;
-    protected  double graphHeight;
+    protected int graphX;
+    protected int graphY;
+    protected int graphWidth;
+    protected int graphHeight;
 
-    protected boolean mouseOnCanvas;
+    protected static boolean mouseOnCanvas;
 
-    private GLCanvas canvas;
+    protected boolean autoDetectMaxMin = false;
 
     public Graph(int graphX, int graphY, int graphWidth, int graphHeight) {
         this.graphX = graphX;
@@ -33,7 +32,7 @@ public class Graph extends MouseAdapter implements GLEventListener {
 
     @Override
     public void mouseEntered(MouseEvent e) {
-        System.out.println(e);
+//        System.out.println(e);
         mouseOnCanvas = true;
     }
 
@@ -53,7 +52,7 @@ public class Graph extends MouseAdapter implements GLEventListener {
         this.graphHeight = location.height;
     }
 
-    private void setSampleCount(int sampleCount) {
+    public void setSampleCount(int sampleCount) {
         this.sampleCount = sampleCount;
     }
 
@@ -91,5 +90,11 @@ public class Graph extends MouseAdapter implements GLEventListener {
 
     protected double convertValueOverWidth(double value) {
         return ((value / graphWidth) * (2));
+    }
+
+    protected static void setFrameLocation(Point location) { frameLocation = location; }
+
+    public void toggleAutoDetectMaxMin() {
+        autoDetectMaxMin = !autoDetectMaxMin;
     }
 }
