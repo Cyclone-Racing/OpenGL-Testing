@@ -5,8 +5,6 @@ import com.jogamp.opengl.awt.GLCanvas;
 import com.jogamp.opengl.util.Animator;
 
 import javax.swing.*;
-import javax.swing.border.Border;
-import java.awt.*;
 
 public class FarrelMovingLine implements GLEventListener {
     Dataset dataset;
@@ -32,24 +30,11 @@ public class FarrelMovingLine implements GLEventListener {
         OpenGL.buffer.rewind();
         float[] vertices = {-0.5f, -1 * dataset.getLastSample() * 0.9f, 0.5f, dataset.getLastSample() * 0.9f};
         OpenGL.buffer.put(vertices);
-//        System.out.println(vertices[0] + " | " + vertices[1] + " | " + vertices[2] + " | " + vertices[3]);
-//        GL2ES3 gl,
-//        float[] color,
-//        float lowerLeftX,
-//        float lowerLeftY,
-//        float width,
-//        float height
         OpenGL.drawBox(gl, new float[]{1f,1f,1f,1f}, -1, -1, 2, 2);
         OpenGL.buffer.rewind();
         OpenGL.drawLinesXyrgba(gl, GL3.GL_LINE, OpenGL.buffer, 2);
         OpenGL.buffer.rewind();
-//        GL2ES3 gl,
-//        @NotNull  String text,
-//        int x,
-//        int y,
-//        float degrees
         OpenGL.drawLargeText(gl, "Test", 0, 0, 0);
-//        OpenGL.drawLinesXy();
         OpenGL.buffer.rewind();
     }
 
