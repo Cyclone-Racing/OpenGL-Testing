@@ -16,7 +16,7 @@ import java.util.Map;
 public class OpenGL {
 	
 	public static FloatBuffer buffer = Buffers.newDirectFloatBuffer(32768); // for anyone to use, hopefully big enough for most things
-	private static int AntialiasingLevel = 0;
+	private static int AntialiasingLevel = 1;
 	/**
 	 * Draws a buffer of (y1,y2,...) vertices as GL_POINTS.
 	 * X values are auto-generated.
@@ -183,9 +183,7 @@ public class OpenGL {
 		}
 		
 		// draw
-		System.out.println("Drawing?");
 		gl.glDrawArrays(lineType, 0, vertexCount);
-		System.out.println("Drawing?");
 	}
 	
 	/**
@@ -219,9 +217,7 @@ public class OpenGL {
 		}
 		
 		// draw
-		System.out.println(vertexCount);
 		gl.glDrawArrays(lineType, 0, vertexCount);
-		System.out.println("Drawing?");
 	}
 	
 	/**
