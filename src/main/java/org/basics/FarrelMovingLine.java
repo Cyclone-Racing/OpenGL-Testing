@@ -17,8 +17,9 @@ public class FarrelMovingLine implements GLEventListener {
     public void init(GLAutoDrawable glAutoDrawable) {
         GL2ES3 gl = glAutoDrawable.getGL().getGL2ES3();
         OpenGL.makeAllPrograms(gl);
-        float[] screenMatrix = new float[1];
-//        OpenGL.makeOrthoMatrix(screenMatrix, 0, 1, 0, 1, -100000, 100000);
+        float[] screenMatrix = new float[16];
+        OpenGL.makeOrthoMatrix(screenMatrix, -1, 1, -1, 1, -10000, 10000);
+        OpenGL.useMatrix(gl, screenMatrix);
         OpenGL.useMatrix(gl, screenMatrix);
         OpenGL.updateFontTextures(gl);
     }
@@ -28,14 +29,14 @@ public class FarrelMovingLine implements GLEventListener {
         final GL2ES3 gl = glAutoDrawable.getGL().getGL2ES3();
 
         OpenGL.buffer.rewind();
-        float[] vertices = {-0.5f, -1 * dataset.getLastSample() * 0.9f, 0.5f, dataset.getLastSample() * 0.9f};
+        float[] vertices = {-0.5f, 0f, 0.5f, 0f};
         OpenGL.buffer.put(vertices);
-        OpenGL.drawBox(gl, new float[]{1f,1f,1f,1f}, -1, -1, 2, 2);
+        OpenGL.drawBox(gl, new float[]{0.2f,0.2f,0.2f,1f}, -1,-1, 2, 2);
+//        OpenGL.buffer.rewind();
+        OpenGL.drawLinesXy(gl, GL3.GL_LINE, new float[]{1f,1f,1f,1f}, OpenGL.buffer, 2);
         OpenGL.buffer.rewind();
-        OpenGL.drawLinesXyrgba(gl, GL3.GL_LINE, OpenGL.buffer, 2);
-        OpenGL.buffer.rewind();
-        OpenGL.drawLargeText(gl, "Test", 0, 0, 0);
-        OpenGL.buffer.rewind();
+//        OpenGL.drawLargeText(gl, "Test", 0, 0, 0);
+//        OpenGL.buffer.rewind();
     }
 
     public static void main(String[] args) throws InterruptedException {
