@@ -1,5 +1,7 @@
 package org.basics;
 
+import com.jogamp.opengl.GL2ES3;
+
 import java.awt.*;
 
 public class Theme {
@@ -21,11 +23,11 @@ public class Theme {
     public final static Color blankGraphColor = new Color(0xBDBDBD);
 
     // Font details
-    public final static String fontName = "Courier"; // Other fonts to look at "DialogInput", "Dialog", "Serif"
+//    public final static String fontName = "Courier"; // Other fonts to look at "DialogInput", "Dialog", "Serif"
 //    public final static Font largeFont = new Font(fontName, Font.PLAIN, 16);
 //    public final static Font normalFont = new Font(fontName, Font.PLAIN, 12);
 //    public final static Font smallFont = new Font(fontName, Font.PLAIN, 8);
-    public final static Color fontColor = new Color(0xFFFFFF);
+//    public final static Color fontColor = new Color(0xFFFFFF);
 
     // Line details
     public final static int smallLineWidth = 1;
@@ -82,4 +84,25 @@ public class Theme {
     public static Font smallFont  = new Font("Geneva", Font.PLAIN, 12);
     public static Font mediumFont = new Font("Geneva", Font.BOLD,  14);
     public static Font largeFont  = new Font("Geneva", Font.BOLD,  18);
+
+    public static void initialize(GL2ES3 gl, float displayScalingFactor) {
+        lineWidth  = displayScalingFactor;
+        pointWidth = 3.0f * displayScalingFactor;
+
+        tilePadding      = 5.0f * displayScalingFactor;
+        tileShadowOffset = tilePadding / 2;
+
+        tooltipTextPadding = 5.0f * displayScalingFactor;
+
+        tickLength      = 6.0f * displayScalingFactor;
+        tickTextPadding = 3.0f * displayScalingFactor;
+
+        legendTextPadding  = 5.0f * displayScalingFactor;
+        legendNamesPadding = 25.0f * displayScalingFactor;
+
+        smallFont  = new Font("Geneva", Font.PLAIN, (int) (12.0 * displayScalingFactor));
+        mediumFont = new Font("Geneva", Font.BOLD,  (int) (14.0 * displayScalingFactor));
+        largeFont  = new Font("Geneva", Font.BOLD,  (int) (18.0 * displayScalingFactor));
+        OpenGL.updateFontTextures(gl);
+    }
 }
